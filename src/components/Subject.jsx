@@ -1,5 +1,9 @@
 import { CalendarClock, ArrowRight } from "lucide-react";
-function Subject({subject}) {
+import { useNavigate } from "react-router";
+
+function Subject({ subject }) {
+  const navigate = useNavigate();
+
   return (
     <article className="bg-white rounded-2xl overflow-hidden">
       <header>
@@ -19,7 +23,10 @@ function Subject({subject}) {
           <CalendarClock />
           {subject.day}
         </div>
-        <button className="w-full bg-linear-to-r from-fuchsia-200 to-fuchsia-100   text-fuchsia-900 font-fredoka rounded-full p-2 mt-2 flex gap-2 justify-center">
+        <button
+          onClick={() => navigate(`/tasks/${subject.name}`)}
+          className="w-full bg-linear-to-r from-fuchsia-200 to-fuchsia-100   text-fuchsia-900 font-fredoka rounded-full p-2 mt-2 flex gap-2 justify-center"
+        >
           <span>Lihat tugas</span>
           <ArrowRight />
         </button>

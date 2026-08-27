@@ -8,78 +8,91 @@ const initialSubjects = [
     description: "Latihan logika dan kemampuan berhitung.",
     day: "Senin dan Rabu",
     image: "/matematika.jpg",
+    tasks: [],
   },
   {
     name: "Desain Grafis",
     description: "Mempelajari dasar visual dan komunikasi desain.",
     day: "Senin",
     image: "/desaingrafis.jpg",
+    tasks: [],
   },
   {
     name: "Seni Budaya",
     description: "Mengenal karya seni dan budaya Indonesia.",
     day: "Senin",
     image: "/senibudaya.jpg",
+    tasks: [],
   },
   {
     name: "Pemrograman Dasar",
     description: "Membangun dasar berpikir komputasional dan pemrograman.",
     day: "Selasa dan Kamis",
     image: "/pemrogramandasar.jpg",
+    tasks: [],
   },
   {
     name: "Muatan Lokal",
     description: "Mempelajari pengetahuan Al-Qur'an",
     day: "Selasa",
     image: "/mulok.jpg",
+    tasks: [],
   },
   {
     name: "Informatika",
     description: "Mengenal teknologi informasi dan sistem komputer.",
     day: "Selasa",
     image: "/informatika.jpg",
+    tasks: [],
   },
   {
     name: "Bahasa Inggris",
     description: "Melatih kemampuan berkomunikasi dalam bahasa Inggris.",
     day: "Rabu dan Jumat",
     image: "/bahasainggris.jpg",
+    tasks: [],
   },
   {
     name: "Pendidikan Agama Islam",
     description: "Mempelajari nilai dan ajaran agama Islam.",
     day: "Rabu",
     image: "/pai.jpg",
+    tasks: [],
   },
   {
     name: "Bahasa Indonesia",
     description: "Mengembangkan kemampuan membaca, menulis, dan berbicara.",
     day: "Rabu dan Kamis",
     image: "/bahasaindonesia.jpg",
+    tasks: [],
   },
   {
     name: "Pendidikan Jasmani, Olahraga, dan Kesehatan",
     description: "Menjaga kebugaran melalui aktivitas olahraga dan kesehatan.",
     day: "Kamis",
     image: "/pendidikanjasmani.jpg",
+    tasks: [],
   },
   {
     name: "Sejarah",
     description: "Memahami peristiwa penting dan perkembangan masyarakat.",
     day: "Kamis",
     image: "/sejarah.jpg",
+    tasks: [],
   },
   {
     name: "Pendidikan Kewarganegaraan",
     description: "Mengenal hak, kewajiban, dan kehidupan berbangsa.",
     day: "Jumat",
     image: "/pancasila.jpg",
+    tasks: [],
   },
   {
     name: "IPA/S",
     description: "Menghubungkan konsep alam dan kehidupan sosial sehari-hari.",
     day: "Rabu dan Jumat",
     image: "/ipas.jpg",
+    tasks: [],
   },
 ];
 
@@ -87,7 +100,7 @@ function HomePage() {
   const [subjects, setSubjects] = useState([]);
   const dbRef = useRef(null);
   useEffect(() => {
-    let request = window.indexedDB.open("data", 3);
+    let request = window.indexedDB.open("data", 4);
 
     request.onsuccess = (event) => {
       dbRef.current = event.target.result;
@@ -119,7 +132,11 @@ function HomePage() {
             );
 
             if (updatedSubject) {
-              subjectStore.put({ ...subject, image: updatedSubject.image });
+              subjectStore.put({
+                ...subject,
+                image: updatedSubject.image,
+                tasks: Array.isArray(subject.tasks) ? subject.tasks : [],
+              });
             }
           });
         };
