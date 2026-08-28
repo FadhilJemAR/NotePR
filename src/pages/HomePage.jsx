@@ -100,8 +100,7 @@ function HomePage() {
   const [subjects, setSubjects] = useState([]);
   const dbRef = useRef(null);
   useEffect(() => {
-    let request = window.indexedDB.open("data", 4);
-
+    const request = window.indexedDB.open("data");
     request.onsuccess = (event) => {
       dbRef.current = event.target.result;
       const transaction = dbRef.current.transaction("subjects", "readonly");
@@ -114,35 +113,12 @@ function HomePage() {
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
-      const transaction = event.target.transaction;
-      const subjectStore = db.objectStoreNames.contains("subjects")
-        ? transaction.objectStore("subjects")
-        : db.createObjectStore("subjects", { autoIncrement: true, keyPath: "id" });
-
-      if (event.oldVersion === 0) {
-        initialSubjects.forEach((subject) => {
-          subjectStore.add(subject);
-        });
-      } else {
-        const getRequest = subjectStore.getAll();
-        getRequest.onsuccess = () => {
-          getRequest.result.forEach((subject) => {
-            const updatedSubject = initialSubjects.find(
-              (initialSubject) => initialSubject.name === subject.name,
-            );
-
-            if (updatedSubject) {
-              subjectStore.put({
-                ...subject,
-                image: updatedSubject.image,
-                tasks: Array.isArray(subject.tasks) ? subject.tasks : [],
-              });
-            }
-          });
-        };
-      }
-    };
-
+      const subjectStore = db.createObjectStore("subjects", { autoIncrement: true, keyPath: "id" });
+      initialSubjects.forEach((subject) => {
+        subjectStore.add(subject);
+      });
+    }
+    
     request.onerror = (event) => {
       console.error("Gagal membuka database:", event.target.error);
     };
