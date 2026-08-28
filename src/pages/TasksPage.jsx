@@ -1,18 +1,35 @@
 import { ArrowLeft, CalendarDays, Circle, Plus, X } from "lucide-react";
-import { useState } from "react";
+import { useState,useEffect,useRef } from "react";
 import { useNavigate, useParams } from "react-router";
 
 
 function TasksPage() {
     const navigate = useNavigate();
+    const dbRef = useRef(null);
     const { subjectName } = useParams();
-    const [tasks, setTasks] = useState([]);
+    const [subjectData,setSubjectData] = useState({name:"",day:"",description:"",image:"",tasks:[]})
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form, setForm] = useState({
         title: "",
         description: "",
         deadline: "",
     });
+    const tasks = subjectData.tasks;
+
+    useEffect(()=>{
+        const request = window.indexedDB.open("data");
+        request.onsuccess = (event) => {
+            dbRef.current = event.target.result;
+            const transaction = dbRef.current.transaction("subjects","readonly");
+            const objectStore = transaction.objectStore("subjects");
+            const getRequest = objectStore.get(subjectName);
+            getRequest.onsuccess = (event) => {
+               const result = event.target.result;
+               setSubjectData(result);
+            }
+
+        }
+    },[])
 
     function handleFormChange(event) {
         const { name, value } = event.target;
@@ -21,15 +38,21 @@ function TasksPage() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        setTasks((currentTasks) => [
-            ...currentTasks,
+        const newTasks = [
+            ...tasks,
             {
                 ...form,
                 status: "Belum dikerjakan",
-            },
-        ]);
-        setForm({ title: "", description: "", deadline: "" });
-        setIsModalOpen(false);
+            }
+        ]
+        const transaction = dbRef.current.transaction("subjects","readwrite");
+        const objectStore = transaction.objectStore("subjects");
+        const requestPut  =  objectStore.put({...subjectData,tasks:newTasks},subjectName);
+        requestPut.onsuccess = ()=>{
+            setSubjectData({...subjectData,tasks:newTasks});
+            setForm({ title: "", description: "", deadline: "" });
+            setIsModalOpen(false);
+        }
     }
 
     return (
