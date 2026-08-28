@@ -113,12 +113,12 @@ function HomePage() {
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
-      const subjectStore = db.createObjectStore("subjects", { autoIncrement: true, keyPath: "id" });
+      const subjectStore = db.createObjectStore("subjects");
       initialSubjects.forEach((subject) => {
-        subjectStore.add(subject);
+        subjectStore.add(subject,subject.name);
       });
     }
-    
+
     request.onerror = (event) => {
       console.error("Gagal membuka database:", event.target.error);
     };
