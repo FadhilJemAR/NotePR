@@ -99,6 +99,12 @@ const initialSubjects = [
 function HomePage() {
   const [subjects, setSubjects] = useState([]);
   const dbRef = useRef(null);
+  const date = new Date().toLocaleDateString("id-ID", {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+ });
   useEffect(() => {
     const request = window.indexedDB.open("data");
     request.onsuccess = (event) => {
@@ -137,7 +143,7 @@ function HomePage() {
       <main>
         <header>
           <span className="text-fuchsia-900/40  text-2xl mt-3  font-fredoka">
-            Senin . 14 Juli 2026
+            {date}
           </span>
           <h1 className="font-fredoka text-5xl text-fuchsia-950 mt-2">
             Kerjakan tugas anda.{" "}
