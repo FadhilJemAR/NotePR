@@ -9,6 +9,14 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] }),
     tailwindcss(),
-    VitePWA({registerType:"autoUpdate"})
+    VitePWA({
+      registerType:"autoUpdate",
+      manifest:{
+        name:"NotePR",
+        short_name:"NotePR",
+        theme_color:"#a855f7",
+        lang:"id"
+      }
+    })
   ],
 })
