@@ -36,6 +36,16 @@ function TasksPage() {
         setForm((currentForm) => ({ ...currentForm, [name]: value }));
     }
 
+    function handleTaskDelete(event){
+        const newTasks = tasks.filter((task)=>task.title !== event.target.value);  
+        const transaction = dbRef.current.transaction("subjects","readwrite");
+        const objectStore = transaction.objectStore("subjects");
+        const requestPut  =  objectStore.put({...subjectData,tasks:newTasks},subjectName);
+        requestPut.onsuccess = ()=>{
+             setSubjectData({...subjectData,tasks:newTasks});
+        }
+    }
+
     function handleSubmit(event) {
         event.preventDefault();
         const newTasks = [
@@ -90,7 +100,7 @@ function TasksPage() {
                                     {task.description}
                                 </p>
                             </div>
-                            <Circle className="text-fuchsia-300 shrink-0" size={18} />
+                            <input type="radio" className="accent-fuchsia-800" onChange={handleTaskDelete} value={task.title}></input>
                         </div>
                         <div className="flex items-center gap-2 text-fuchsia-900/70 font-fredoka mt-4 text-sm">
                             <CalendarDays size={18} />
