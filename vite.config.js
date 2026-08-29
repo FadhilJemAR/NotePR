@@ -11,6 +11,23 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType:"autoUpdate",
+      includeAssets:[
+        "favicon.svg",
+        "bahasaindonesia.jpg",
+        "bahasainggris.jpg",
+        "desaingrafis.jpg",
+        "informatika.jpg",
+        "ipas.jpg",
+        "jadwal.jpeg",
+        "matematika.jpg",
+        "mulok.jpg",
+        "pai.jpg",
+        "pancasila.jpg",
+        "pemrogramandasar.jpg",
+        "pendidikanjasmani.jpg",
+        "sejarah.jpg",
+        "senibudaya.jpg"
+      ],
       manifest:{
         name:"NotePR",
         short_name:"NotePR",
