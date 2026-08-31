@@ -1,4 +1,4 @@
-import { CalendarClock, ArrowRight } from "lucide-react";
+import { CalendarClock, ArrowRight , ListTodo, List} from "lucide-react";
 import { useNavigate } from "react-router";
 
 function Subject({ subject }) {
@@ -19,9 +19,15 @@ function Subject({ subject }) {
         <p className="text-fuchsia-900/60 font-roboto ">
           {subject.description}
         </p>
-        <div className="flex gap-2 text-fuchsia-900 font-fredoka mt-2">
-          <CalendarClock />
-          {subject.day}
+        <div className="flex gap-8 text-fuchsia-900 font-fredoka mt-2">
+          <div className="flex gap-2">
+            <CalendarClock />
+            {subject.day}
+          </div>
+          <div className="flex gap-2">
+             <ListTodo/>
+             {subject.tasks.length + " Tugas "}
+          </div>
         </div>
         <button
           onClick={() => navigate(`/tasks/${subject.name}`)}
