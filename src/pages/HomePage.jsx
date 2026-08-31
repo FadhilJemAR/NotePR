@@ -88,7 +88,7 @@ const initialSubjects = [
     tasks: [],
   },
   {
-    name: "IPA/S",
+    name: "IPAS",
     description: "Menghubungkan konsep alam dan kehidupan sosial sehari-hari.",
     day: "Rabu dan Jumat",
     image: "/ipas.jpg",
@@ -139,7 +139,7 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-pink-100 to-violet-200 px-7 py-14 max-w-175">
+    <div className="min-h-1250 bg-linear-to-b from-pink-100 to-violet-200 px-7 py-14 max-w-175">
       <main>
         <header>
           <span className="text-fuchsia-900/40  text-2xl mt-3  font-fredoka">
